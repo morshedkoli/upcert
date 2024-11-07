@@ -15,7 +15,9 @@ const Dashboard = async () => {
 
   // Fetch certificate data only if the user is authenticated
   try {
-    const response = await fetch("http://localhost:3000/api/certificates");
+    const response = await fetch(
+      `${process.env.NEXTAUTH_URL}/api/certificates`
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch certificates");

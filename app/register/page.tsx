@@ -41,7 +41,7 @@ const RegisterPage = () => {
 
     if (confirmPassword !== password) {
       setError("Passwords are not equal");
-      toast.error("Passwords are not equal")
+      toast.error("Passwords are not equal");
       return;
     }
 
@@ -57,7 +57,7 @@ const RegisterPage = () => {
         }),
       });
       if (res.status === 400) {
-        toast.error("This email is already registered")
+        toast.error("This email is already registered");
         setError("The email already in use");
       }
       if (res.status === 200) {
@@ -66,7 +66,7 @@ const RegisterPage = () => {
         router.push("/login");
       }
     } catch (error) {
-      toast.error("Error, try again")
+      toast.error("Error, try again");
       setError("Error, try again");
       console.log(error);
     }
