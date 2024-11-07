@@ -1,3 +1,4 @@
+// pages/api/auth/[...nextauth].js
 import NextAuth from "next-auth";
 import { Account, User as AuthUser } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
@@ -30,6 +31,7 @@ export const authOptions: any = {
               return user;
             }
           }
+          throw new Error("Invalid email or password"); // Explicit error
         } catch (err: any) {
           throw new Error(err);
         }
@@ -50,7 +52,7 @@ export const authOptions: any = {
       if (account?.provider == "credentials") {
         return true;
       }
-      if (account?.provider == "github") {
+      if (account?.provider == "github" || account?.provider == "google") {
         await connect();
         try {
           const existingUser = await User.findOne({ email: user.email });
@@ -60,37 +62,16 @@ export const authOptions: any = {
             });
 
             await newUser.save();
-            return true;
           }
           return true;
         } catch (err) {
-          console.log("Error saving user", err);
-          return false;
+          console.error("Error saving user:", err);
+          return false; // Prevent user sign-in on error
         }
       }
-
-      if(account?.provider == "google"){
-        await connect();
-        try {
-          const existingUser = await User.findOne({ email: user.email });
-          if (!existingUser) {
-            const newUser = new User({
-              email: user.email,
-            });
-
-            await newUser.save();
-            return true;
-          }
-          return true;
-        } catch (err) {
-          console.log("Error saving user", err);
-          return false;
-        }
-      }
-
     },
   },
 };
 
 export const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }; // Optional exports for other routes
