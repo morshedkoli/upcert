@@ -18,7 +18,7 @@ export default function Members() {
               <img
                 alt="team"
                 className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                src="https://dummyimage.com/80x80"
+                src="#"
               />
               <div className="flex-grow">
                 <h2 className="text-gray-900 title-font font-medium">
